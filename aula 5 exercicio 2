@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=x, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button onclick="adicionar();">adicionar 
+  </button>
+<script>
+  function adicionar(){
+    const divNova = document.createElement
+    ("div")}
+    const h2Nova = document. createElement("h2");
+    const texto = document.getElementById
+    ("texto").value;
+    h2Nova.innerHTML = texto;
+    divNova.appendchild(h2Nova);
+    document.body.appendchild(divNova);
+
+    const btRemover = document.createElement
+    ("button");
+    btRemover.innerHTML = "Remover";
+    document.body.appendChild(btRemover);
+    </script>
+</body>
+</html>
