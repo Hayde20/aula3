@@ -1,0 +1,358 @@
+// exercicio 1
+
+let contador = 0;
+
+document.getElementById("incrementar").onclick = function () {
+    contador++;
+    document.getElementById("numero").textContent = contador;
+};
+
+document.getElementById("decrementar").onclick = function () {
+    contador--;
+    document.getElementById("numero").textContent = contador;
+};
+
+document.getElementById("zerar").onclick = function () {
+    contador = 0;
+    document.getElementById("numero").textContent = contador;
+};
+
+
+// exercicio 2 
+
+document.getElementById("alterarTexto").onclick = function () {
+    document.getElementById("titulo").textContent = "Novo título!";
+    document.getElementById("paragrafo").textContent = "O texto foi alterado!";
+    this.textContent = "Alterado!";
+};
+
+
+// exercicio 3
+
+document.getElementById("verificar").onclick = function () {
+    let idade = document.getElementById("idade").value;
+    let resultado = document.getElementById("resultadoIdade");
+
+    if (idade.trim() === "") {
+        resultado.textContent = "Preencha sua idade!";
+    } else if (Number(idade) < 0) {
+        resultado.textContent = "Idade inválida!";
+    } else if (Number(idade) >= 18) {
+        resultado.textContent = "Maior de idade!";
+    } else {
+        resultado.textContent = "Menor de idade!";
+    }
+};
+
+
+// exercicio 4
+
+document.getElementById("adicionarNome").onclick = function () {
+    let campo = document.getElementById("nome");
+    let nome = campo.value.trim();
+
+    if (nome === "") {
+        alert("Digite um nome!");
+        return;
+    }
+
+    let item = document.createElement("li");
+    item.textContent = nome;
+
+    document.getElementById("listaNomes").appendChild(item);
+
+    campo.value = "";
+};
+
+
+// exercicio 5
+
+document.getElementById("adicionarProduto").onclick = function () {
+    let campo = document.getElementById("produto");
+    let nome = campo.value.trim();
+
+    if (nome === "") {
+        alert("Digite um produto!");
+        return;
+    }
+
+    let item = document.createElement("li");
+    let texto = document.createElement("span");
+
+    texto.textContent = nome + " ";
+
+    let comprado = document.createElement("button");
+    comprado.textContent = "Comprado";
+
+    comprado.onclick = function () {
+        texto.style.textDecoration = "line-through";
+        texto.style.color = "green";
+        texto.textContent = nome + " - Comprado ";
+    };
+
+    let excluir = document.createElement("button");
+    excluir.textContent = "Excluir";
+
+    excluir.onclick = function () {
+        item.remove();
+    };
+
+    item.appendChild(texto);
+    item.appendChild(comprado);
+    item.appendChild(excluir);
+
+    document.getElementById("listaCompras").appendChild(item);
+
+    campo.value = "";
+};
+// exercicio 6 
+
+document.getElementById("cadastrarContato").onclick = function () {
+    let nome = document.getElementById("contatoNome").value.trim();
+    let telefone = document.getElementById("telefone").value.trim();
+    let email = document.getElementById("email").value.trim();
+
+    if (nome === "" || telefone === "" || email === "") {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    let item = document.createElement("li");
+
+    item.textContent = "Nome: " + nome +
+        " | Telefone: " + telefone +
+        " | E-mail: " + email + " ";
+
+    let excluir = document.createElement("button");
+    excluir.textContent = "Excluir";
+
+    excluir.onclick = function () {
+        item.remove();
+    };
+
+    item.appendChild(excluir);
+
+    document.getElementById("listaContatos").appendChild(item);
+
+    document.getElementById("contatoNome").value = "";
+    document.getElementById("telefone").value = "";
+    document.getElementById("email").value = "";
+};
+
+
+// exercicio 7 
+
+let notas = [];
+
+document.getElementById("adicionarAluno").onclick = function () {
+    let nome = document.getElementById("aluno").value.trim();
+    let nota = document.getElementById("nota").value;
+
+    if (nome === "" || nota === "") {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    nota = Number(nota);
+
+    if (nota < 0 || nota > 10) {
+        alert("Nota inválida!");
+        return;
+    }
+
+    let situacao = nota >= 6 ? "Aprovado" : "Reprovado";
+
+    notas.push({ nome, nota, situacao });
+
+    atualizarNotas();
+
+    document.getElementById("aluno").value = "";
+    document.getElementById("nota").value = "";
+};
+
+function atualizarNotas() {
+    let lista = document.getElementById("listaAlunos");
+    lista.innerHTML = "";
+
+    notas.forEach(function (aluno, index) {
+        let item = document.createElement("li");
+
+        item.textContent = aluno.nome + " - Nota: " +
+            aluno.nota + " - " + aluno.situacao + " ";
+
+        let excluir = document.createElement("button");
+        excluir.textContent = "Excluir";
+
+        excluir.onclick = function () {
+            notas.splice(index, 1);
+            atualizarNotas();
+        };
+
+        item.appendChild(excluir);
+        lista.appendChild(item);
+    });
+
+    let soma = notas.reduce(function (total, aluno) {
+        return total + aluno.nota;
+    }, 0);
+
+    let media = notas.length > 0 ? soma / notas.length : 0;
+
+    document.getElementById("mediaNotas").textContent =
+        "Média: " + media.toFixed(2);
+}
+
+
+// exercicio 8 
+
+document.querySelectorAll("[data-imagem]").forEach(function (botao) {
+    botao.onclick = function () {
+        let imagem = this.getAttribute("data-imagem");
+        let nome = this.getAttribute("data-nome");
+
+        document.getElementById("imagemGrande").src =
+            "https://picsum.photos/id/" + imagem + "/400/250";
+
+        document.getElementById("nomeImagem").textContent = nome;
+    };
+});
+
+
+// exercicio 9 
+
+let estoque = [];
+
+document.getElementById("cadastrarEstoque").onclick = function () {
+    let nome = document.getElementById("nomeEstoque").value.trim();
+    let quantidade = document.getElementById("quantidade").value;
+    let preco = document.getElementById("preco").value;
+
+    if (nome === "" || quantidade === "" || preco === "") {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    quantidade = Number(quantidade);
+    preco = Number(preco);
+
+    if (!Number.isInteger(quantidade) || quantidade <= 0 || preco < 0) {
+        alert("Informe valores válidos!");
+        return;
+    }
+
+    estoque.push({ nome, quantidade, preco });
+
+    atualizarEstoque();
+
+    document.getElementById("nomeEstoque").value = "";
+    document.getElementById("quantidade").value = "";
+    document.getElementById("preco").value = "";
+};
+
+function atualizarEstoque() {
+    let lista = document.getElementById("listaEstoque");
+    lista.innerHTML = "";
+
+    let total = 0;
+
+    estoque.forEach(function (produto, index) {
+        let valor = produto.quantidade * produto.preco;
+        total += valor;
+
+        let item = document.createElement("li");
+
+        item.textContent = produto.nome +
+            " | Quantidade: " + produto.quantidade +
+            " | Preço: R$ " + produto.preco.toFixed(2) +
+            " | Total: R$ " + valor.toFixed(2) + " ";
+
+        let excluir = document.createElement("button");
+        excluir.textContent = "Excluir";
+
+        excluir.onclick = function () {
+            estoque.splice(index, 1);
+            atualizarEstoque();
+        };
+
+        item.appendChild(excluir);
+        lista.appendChild(item);
+    });
+
+    document.getElementById("valorTotal").textContent =
+        "Valor total do estoque: R$ " + total.toFixed(2);
+}
+
+
+// exercicio 10 
+
+let tarefas = [];
+
+document.getElementById("adicionarTarefa").onclick = function () {
+    let descricao = document.getElementById("descricaoTarefa").value.trim();
+
+    if (descricao === "") {
+        alert("Digite uma tarefa!");
+        return;
+    }
+
+    tarefas.push({
+        descricao: descricao,
+        concluida: false
+    });
+
+    atualizarTarefas();
+
+    document.getElementById("descricaoTarefa").value = "";
+};
+
+function atualizarTarefas() {
+    let lista = document.getElementById("listaTarefas");
+    lista.innerHTML = "";
+
+    tarefas.forEach(function (tarefa, index) {
+        let item = document.createElement("li");
+
+        item.textContent = tarefa.descricao +
+            (tarefa.concluida ? " - Concluída " : " - Pendente ");
+
+        if (tarefa.concluida) {
+            item.style.textDecoration = "line-through";
+        }
+
+        let concluir = document.createElement("button");
+        concluir.textContent = "Concluir";
+
+        concluir.onclick = function () {
+            tarefa.concluida = !tarefa.concluida;
+            atualizarTarefas();
+        };
+
+        let excluir = document.createElement("button");
+        excluir.textContent = "Excluir";
+
+        excluir.onclick = function () {
+            tarefas.splice(index, 1);
+            atualizarTarefas();
+        };
+
+        item.appendChild(concluir);
+        item.appendChild(excluir);
+
+        lista.appendChild(item);
+    });
+
+    let concluidas = tarefas.filter(function (t) {
+        return t.concluida;
+    }).length;
+
+    let pendentes = tarefas.length - concluidas;
+
+    document.getElementById("totalTarefas").textContent =
+        "Total de tarefas: " + tarefas.length;
+
+    document.getElementById("tarefasConcluidas").textContent =
+        "Concluídas: " + concluidas;
+
+    document.getElementById("tarefasPendentes").textContent =
+        "Pendentes: " + pendentes;
+}
